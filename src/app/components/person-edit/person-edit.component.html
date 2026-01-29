@@ -1,0 +1,79 @@
+<div class="container">
+  <h2>{{ isEditMode ? 'Edit Person' : 'Create New Person' }}</h2>
+  
+  <div *ngIf="error" class="error">{{ error }}</div>
+  
+  <form [formGroup]="personForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+    <div class="form-group">
+      <label for="name">Name *</label>
+      <input 
+        type="text" 
+        id="name" 
+        formControlName="name" 
+        class="form-control"
+        [class.invalid]="personForm.get('name').invalid && personForm.get('name').touched"
+      >
+      <div class="error-message" *ngIf="personForm.get('name').invalid && personForm.get('name').touched">
+        Name is required (minimum 2 characters)
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="age">Age *</label>
+      <input 
+        type="number" 
+        id="age" 
+        formControlName="age" 
+        class="form-control"
+        [class.invalid]="personForm.get('age').invalid && personForm.get('age').touched"
+      >
+      <div class="error-message" *ngIf="personForm.get('age').invalid && personForm.get('age').touched">
+        Age must be between 1 and 150
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="gender">Gender *</label>
+      <select 
+        id="gender" 
+        formControlName="gender" 
+        class="form-control"
+        [class.invalid]="personForm.get('gender').invalid && personForm.get('gender').touched"
+      >
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+      <div class="error-message" *ngIf="personForm.get('gender').invalid && personForm.get('gender').touched">
+        Gender is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="mobile">Mobile Number *</label>
+      <input 
+        type="text" 
+        id="mobile" 
+        formControlName="mobile" 
+        class="form-control"
+        placeholder="10 digits"
+        [class.invalid]="personForm.get('mobile').invalid && personForm.get('mobile').touched"
+      >
+      <div class="error-message" *ngIf="personForm.get('mobile').invalid && personForm.get('mobile').touched">
+        Mobile number must be exactly 10 digits
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button type="submit" class="btn btn-primary" [disabled]="personForm.invalid || loading">
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">
+        Cancel
+      </button>
+    </div>
+  </form>
+  
+  <div *ngIf="loading" class="loading">Loading...</div>
+</div>
